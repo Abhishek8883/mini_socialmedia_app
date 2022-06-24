@@ -3,15 +3,14 @@ const { User } = require('../models/userSchema')
 const { Post } = require('../models/postSchema')
 const { Comment } = require('../models/commentSchema')
 const jwt = require("jsonwebtoken");
-const bcrypt = require('bcryptjs')
+const { comparepassword,hashpassword } = require("../utils/crypt");
 
-
-const { comparepassword } = require("../utils/crypt");
 
 
 const getLoginPage = (req, res) => {
     return res.status(200).render('../views/login/index.ejs')
 }
+
 
 const getHomepage = (req, res, next) => {
     const decoded = jwt.verify(req.cookies.access_token, "secret", (err, data) => {
@@ -36,12 +35,12 @@ const getHomepage = (req, res, next) => {
         })
 }
 
+
 const createUser = (req, res, next) => {
 
     const { email, username, password } = req.body
-    var hash = bcrypt.hashSync(password, 8);
     const user = User.create({
-        email, username, password: hash
+        email, username, password: hashpassword(password)
     })
         .then((createdUser) => {
             const token = jwt.sign({
@@ -125,7 +124,6 @@ const login = (req, res, next) => {
         })
 
 }
-
 
 
 const logout = (req, res, next) => {
