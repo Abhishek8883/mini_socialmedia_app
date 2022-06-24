@@ -13,8 +13,9 @@
   <a href="/api/v1/user/profile"><button class="btn btn-primary">Create Post / Profile</button></a>
   <a href="./logout"><button class="btn btn-danger ml-4">Logout</button></a>
   <center>
-    <h1>This is Homepage</h1>
+    <h1>Welcome <%=username%></h1>
   </center>
+  <br>
   <div id="post" class="container d-flex flex-column justify-content-center align-items-center">
     <%if(!post && post.length<0){ %>
       <h1>No Post</h1>
@@ -59,8 +60,10 @@
                       <p>
                         <%=dets.desc %>
                       </p>
+                      <%if(username === dets.user){%>
                       <a href="/api/v1/post/editCommentPage/<%=dets.id%>">Edit</a>
                       <a href="/api/v1/post/deleteComment/<%=dets.id%>">Delete</a>
+                      <% } %>
                       </div>
                     <% }) %>
                    <% } %>

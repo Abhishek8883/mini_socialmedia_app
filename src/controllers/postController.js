@@ -1,6 +1,7 @@
 const { Post } = require('../models/postSchema')
 const { Comment } = require('../models/commentSchema')
 const jwt = require("jsonwebtoken");
+const {upload} = require('../middlewares/multer')
 
 const createPost = (req, res, next) => {
 
@@ -51,7 +52,6 @@ const editPostPage = (req, res, next) => {
         }
     })
         .then((post) => {
-
             return res.status(200).render('../views/edit/index.ejs', { post })
         })
         .catch((err) => {
@@ -62,32 +62,30 @@ const editPostPage = (req, res, next) => {
 
 const editPost = (req, res, next) => {
     const { title, show } = req.body
-    // const postid = req.params.postid.split(':')[1]
     const postid = req.params.postid
 
-    res.send(req.file.filename)
-    // if(req.file.filename){
-    //     Post.update(
-    //         { title,image_url: req.file.filename,show },
-    //         { where: { id: postid } })
-    //     .then((data) => {
-    //        return res.redirect('/api/v1/user/home',204)
-    //     })
-    //     .catch((err) => {
-    //         return res.status(400).json({messege:err})
-    //     })
-    // }
-    // else{
-    //     Post.update(
-    //         { title,show },
-    //         { where: { id: postid } })
-    //     .then((data) => {
-    //        return res.send(data)
-    //     })
-    //     .catch((err) => {
-    //         return res.status(400).json({messege:err})
-    //     })
-    // }
+    if(req.file ){
+        Post.update(
+            { title,image_url: req.file.filename,show },
+            { where: { id: postid } })
+        .then((data) => {
+           return res.redirect('/api/v1/user/home')
+        })
+        .catch((err) => {
+            return res.status(400).json({messege:err})
+        })
+    }
+    else{
+        Post.update(
+            { title,show },
+            { where: { id: postid } })
+        .then((data) => {
+           return res.redirect('/api/v1/user/home')
+        })
+        .catch((err) => {
+            return res.status(400).json({messege:err})
+        })
+    }
 
 
 
