@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/stylesheets/profile.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css">
+    <title>Home</title>
+</head>
+
+<body>
+    <a href="./home"><button class="btn btn-primary">Home</button></a>
+    <div id="main">
+        <div id="create">
+            <form action="/api/v1/post/create" enctype="multipart/form-data" method="post">
+                <input type="text" id="title" name="title" placeholder="Whats Happening ?">
+                <div id="content">
+                    <div id="c_left">
+                        <div id="image">
+                            <img src="https://image.shutterstock.com/image-vector/add-600w-457530256.jpg" alt="Click to add image">
+                            <input type="file" name="image" id="image_file">
+                        </div>
+                    </div>
+                    <div id="c_right">
+                        <select id="selectValue" name="show">
+                            <option value="true" selected>Everyone can view & reply</option>
+                            <option value="false">Only me</option>
+                        </select>
+                        <input type="submit" id="btn_share" value="Share Now">
+                    </div>
+                </div>
+            </form>
+        </div>
+
+
+        <div id="post">
+            <center>
+                <h2>Your Posts will appear here</h2>
+            </center>
+            <%if(post.length<0){ %>
+                <h1>No Post</h1>
+            <% }else{ %>
+                <% post.forEach((val) => { %>
+                    <div class="card container m-1 " style="width: 20rem ">
+                        <img class="card-img-top p-1"  src="../../../images/<%=val.image_url %>" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title"><%=val.title %></h5>
+                            <a href="/api/v1/post/edit/<%=val.id%>" class="btn btn-primary">EDIT</a>
+                            <a href="/api/v1/post/delete/<%=val.id%>" class="btn btn-danger">DELETE</a>
+                        </div>
+                    </div>
+               <% }) %>
+            <% } %>
+        </div>
+    </div>
+
+    <script>
+
+        document.querySelector('#image').addEventListener('click', () => {
+            document.querySelector('#image_file').click()
+        })
+
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <%const value = comment[0].dataValues%>
+    <div id="main">
+        <form action="/api/v1/post/editComment/<%=value.id %>" method="post">
+            <input type="text" name="editedComment" placeholder="Enter edited comment" value="<%=value.desc %>">
+            <input type="submit" value="Edit">
+        </form>
+    </div>
+</body>
+</html>
